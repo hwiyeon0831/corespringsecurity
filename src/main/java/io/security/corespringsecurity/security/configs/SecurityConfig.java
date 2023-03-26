@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationDetailsSource authenticationDetailsSource;
 
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
         // DB에 있는 사용자를 조회하여 권한 부여할 것이므로 인메모리 방식 설정 삭제
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -80,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login_proc")
                 .authenticationDetailsSource(authenticationDetailsSource)
                 .defaultSuccessUrl("/")
+                .successHandler(authenticationSuccessHandler)
                 .permitAll()
         ;
 
